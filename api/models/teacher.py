@@ -1,16 +1,15 @@
 from ..utils import db
 from ..models.users import User
 
-class Student(User):
-    __tablename__ = 'students'
+class Teacher(User):
+    __tablename__ = 'teachers'
 
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    admission_no = db.Column(db.String(20))
-    courses = db.relationship('Course', secondary='student_course')
-    score = db.relationship('Score', backref='student_score', lazy=True)
+    employee_no = db.Column(db.String(20))
+    courses = db.relationship('Course', backref='teacher_course')
 
     __mapper_args__ = {
-        'polymorphic_identity': 'student'
+        'polymorphic_identity': 'teacher'
     }
 
 
@@ -21,7 +20,6 @@ class Student(User):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-
 
     @classmethod
     def get_by_id(cls, id):
